@@ -15,7 +15,7 @@ jobs:
           - name: Handlebars.MSBuild
     steps:
       - name: CheckOut
-        uses: ByronMayne/Shared.Actions/gitversion_checkout@1.0.5
+        uses: ByronMayne/Shared.Actions/gitversion_checkout@1.0.6
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
@@ -23,7 +23,7 @@ jobs:
       - name: List Dir 
         run: dir .\src\${{ matrix.project.name }}\
       - name: Build | ${{ matrix.project.name }}
-        uses: ByronMayne/Shared.Actions/build_csharp@1.0.5
+        uses: ByronMayne/Shared.Actions/build_csharp@1.0.6
         with: 
           publish: false 
           configuration: ${{ env.configuration }}
