@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    //"Handlebars.MSBuild": {
+    //  "commandName": "Project"
+    //},
+    "MSBuild": {
+      "commandName": "Executable",
+      "executablePath": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe",
+      "commandLineArgs": "\"D:\\Repositories\\Handlebars.MSBuild\\src\\Handlebars.MSBuild.Tests\\Handlebars.MSBuild.Tests.csproj\""
+    }
+  }
+}

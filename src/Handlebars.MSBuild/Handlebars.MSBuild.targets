@@ -1,0 +1,22 @@
+<Project>
+  <Target Name="HandlebarsTemplateTransform" 
+          BeforeTargets="BeforeBuild"
+          Condition="'$(HandlebarsDisableTransformOnBuild.ToLower())' != 'true'">
+
+    <!-- Run Handlebars.net and update the templates-->
+    <TransformHandlebarsTemplatesTask
+      IntermediateOutputPath="$(MSBuildProjectDirectory)\$(IntermediateOutputPath)\Handlebars\"
+      Templates="@(HandlebarsTemplate)" 
+      Properties="@(HandlebarsProperty)">
+      <Output TaskParameter="Templates" ItemName="HandlebarsTemplate"/>
+    </TransformHandlebarsTemplatesTask>
+    
+    <ItemGroup>
+      <_HandlebarsSourceFiles Include="@(HandlebarsTemplate->'%(GeneratedSourcePath)')" Condition="'%(HandlebarsTemplate.GeneratedSourcePath)' != ''"/>
+      
+      <Compile Include="@(_HandlebarsSourceFiles)" />
+      <FileWrites Include="@(_HandlebarsSourceFiles)" />
+    </ItemGroup>
+    
+  </Target>
+</Project>

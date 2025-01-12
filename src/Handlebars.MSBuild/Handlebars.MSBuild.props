@@ -1,0 +1,86 @@
+<Project>
+  <!-- Import our assembly -->
+  <UsingTask TaskName="TransformHandlebarsTemplatesTask" AssemblyFile="$(MSBuildThisFileDirectory)\Handlebars.MSBuild.dll" />
+
+  <ItemDefinitionGroup>
+    <HandlebarsProperty>
+      <Value/>
+    </HandlebarsProperty>
+    <HandlebarsTemplate>
+      <OutputPath></OutputPath>
+      <Content></Content>
+      <AddToCompilation>false</AddToCompilation>
+      <TransformedTemplate></TransformedTemplate>
+      <GeneratedSourcePath></GeneratedSourcePath>
+    </HandlebarsTemplate>
+  </ItemDefinitionGroup>
+
+  <PropertyGroup Label="DefaultProperties">
+    <HandlebarsDisableTransformOnBuild Condition="'$(HandlebarsDisableTransform)' == ''">false</HandlebarsDisableTransformOnBuild>
+  </PropertyGroup>
+  
+  
+  <ItemGroup Label="Included Properties">
+    <HandlebarsProperty Include="AssemblyName" Value="$(AssemblyName)"/>
+    <HandlebarsProperty Include="AssemblyTitle" Value="$(AssemblyTitle)"/>
+    <HandlebarsProperty Include="Authors" Value="$(Authors)"/>
+    <HandlebarsProperty Include="BaseIntermediateOutputPath" Value="$(BaseIntermediateOutputPath)"/>
+    <HandlebarsProperty Include="BaseOutputPath" Value="$(BaseOutputPath)"/>
+    <HandlebarsProperty Include="Company" Value="$(Company)"/>
+    <HandlebarsProperty Include="Configuration" Value="$(Configuration)"/>
+    <HandlebarsProperty Include="ConfigurationName" Value="$(ConfigurationName)"/>
+    <HandlebarsProperty Include="Configurations" Value="$(Configurations)"/>
+    <HandlebarsProperty Include="DefineConstants" Value="$(DefineConstants)"/>
+    <HandlebarsProperty Include="IsPackable" Value="$(IsPackable)"/>
+    <HandlebarsProperty Include="IsPublishable" Value="$(IsPublishable)"/>
+    <HandlebarsProperty Include="IsTestProject" Value="$(IsTestProject)"/>
+    <HandlebarsProperty Include="Language" Value="$(Language)"/>
+    <HandlebarsProperty Include="LangVersion" Value="$(LangVersion)"/>
+    <HandlebarsProperty Include="MSBuildProjectDefaultTargets" Value="$(MSBuildProjectDefaultTargets)"/>
+    <HandlebarsProperty Include="MSBuildProjectDirectory" Value="$(MSBuildProjectDirectory)"/>
+    <HandlebarsProperty Include="MSBuildProjectExtension" Value="$(MSBuildProjectExtension)"/>
+    <HandlebarsProperty Include="MSBuildProjectExtensionsPath" Value="$(MSBuildProjectExtensionsPath)"/>
+    <HandlebarsProperty Include="MSBuildProjectFile" Value="$(MSBuildProjectFile)"/>
+    <HandlebarsProperty Include="MSBuildProjectFullPath" Value="$(MSBuildProjectFullPath)"/>
+    <HandlebarsProperty Include="MSBuildProjectName" Value="$(MSBuildProjectName)"/>
+    <HandlebarsProperty Include="MSBuildSemanticVersion" Value="$(MSBuildSemanticVersion)"/>
+    <HandlebarsProperty Include="MSBuildStartupDirectory" Value="$(MSBuildStartupDirectory)"/>
+    <HandlebarsProperty Include="MSBuildToolsPath" Value="$(MSBuildToolsPath)"/>
+    <HandlebarsProperty Include="NoWarn" Value="$(NoWarn)"/>
+    <HandlebarsProperty Include="Nullable" Value="$(Nullable)"/>
+    <HandlebarsProperty Include="OutDir" Value="$(OutDir)"/>
+    <HandlebarsProperty Include="OutputPath" Value="$(OutputPath)"/>
+    <HandlebarsProperty Include="OutputType" Value="$(OutputType)"/>
+    <HandlebarsProperty Include="PackageDescription" Value="$(PackageDescription)"/>
+    <HandlebarsProperty Include="PackageDownloadSupported" Value="$(PackageDownloadSupported)"/>
+    <HandlebarsProperty Include="PackagedShimOutputRootDirectory" Value="$(PackagedShimOutputRootDirectory)"/>
+    <HandlebarsProperty Include="PackageId" Value="$(PackageId)"/>
+    <HandlebarsProperty Include="PackageOutputPath" Value="$(PackageOutputPath)"/>
+    <HandlebarsProperty Include="PackageRequireLicenseAcceptance" Value="$(PackageRequireLicenseAcceptance)"/>
+    <HandlebarsProperty Include="PackageVersion" Value="$(PackageVersion)"/>
+    <HandlebarsProperty Include="Platform" Value="$(Platform)"/>
+    <HandlebarsProperty Include="PlatformName" Value="$(PlatformName)"/>
+    <HandlebarsProperty Include="ProjectDir" Value="$(ProjectDir)"/>
+    <HandlebarsProperty Include="ProjectExt" Value="$(ProjectExt)"/>
+    <HandlebarsProperty Include="ProjectFileName" Value="$(ProjectFileName)"/>
+    <HandlebarsProperty Include="ProjectName" Value="$(ProjectName)"/>
+    <HandlebarsProperty Include="ProjectPath" Value="$(ProjectPath)"/>
+    <HandlebarsProperty Include="PublishDir" Value="$(PublishDir)"/>
+    <HandlebarsProperty Include="PublishDirName" Value="$(PublishDirName)"/>
+    <HandlebarsProperty Include="TargetDir" Value="$(TargetDir)"/>
+    <HandlebarsProperty Include="TargetFileName" Value="$(TargetFileName)"/>
+    <HandlebarsProperty Include="TargetFramework" Value="$(TargetFramework)"/>
+    <HandlebarsProperty Include="TargetFrameworkIdentifier" Value="$(TargetFrameworkIdentifier)"/>
+    <HandlebarsProperty Include="TargetFrameworkMoniker" Value="$(TargetFrameworkMoniker)"/>
+    <HandlebarsProperty Include="TargetFrameworkVersion" Value="$(TargetFrameworkVersion)"/>
+    <HandlebarsProperty Include="TargetName" Value="$(TargetName)"/>
+    <HandlebarsProperty Include="TargetPath" Value="$(TargetPath)"/>
+    <HandlebarsProperty Include="TestProject" Value="$(TestProject)"/>
+    <HandlebarsProperty Include="ToolCommandName" Value="$(ToolCommandName)"/>
+    <HandlebarsProperty Include="TreatWarningsAsErrors" Value="$(TreatWarningsAsErrors)"/>
+    <HandlebarsProperty Include="Version" Value="$(Version)"/>
+    <HandlebarsProperty Include="VersionPrefix" Value="$(VersionPrefix)"/>
+    <HandlebarsProperty Include="WarningLevel" Value="$(WarningLevel)"/>
+    <HandlebarsProperty Include="WarningsAsErrors" Value="$(WarningsAsErrors)"/>
+  </ItemGroup>
+</Project>
