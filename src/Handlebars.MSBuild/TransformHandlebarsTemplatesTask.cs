@@ -78,6 +78,15 @@ namespace Handlebars.MSBuild
                     }
                     File.WriteAllText(filePath, transformed);
                 }
+                else if(!string.IsNullOrEmpty(template.OutputPath))
+                {
+                    string directory = Path.GetDirectoryName(template.OutputPath);
+                    if (!Directory.Exists(directory))
+                    {
+                        Directory.CreateDirectory(directory);
+                    }
+                    File.WriteAllText(transformed, template.OutputPath);
+                }
             }
 
             return true;
