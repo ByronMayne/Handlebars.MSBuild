@@ -34,7 +34,7 @@
     <PackageReference Include="Handlebars.Net" Version="2.1.6" />
     <PackageReference Include="Microsoft.Build" Version="17.12.6" />
     <PackageReference Include="Microsoft.Build.Utilities.Core" Version="17.12.6" />
-    <PackageReference Include="NugetInsights.Connector" Version="1.0.1">
+    <PackageReference Include="NugetInsights.Connector" Version="1.0.*">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
