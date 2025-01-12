@@ -13,10 +13,15 @@
     <DevelopmentDependency>true</DevelopmentDependency>
     <PackageTags>NuGet;MSBuild;Handlebars</PackageTags>
     <TargetsForTfmSpecificContentInPackage>$(TargetsForTfmSpecificContentInPackage);CustomContentTarget</TargetsForTfmSpecificContentInPackage>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
 
   <ItemGroup>
     <None Include="..\..\img\icon.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\..\LICENSE">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
@@ -38,8 +43,8 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
 
-    <None Update="$(MSBuildThisFileName).props" Pack="True" PackagePath="/Build/"/>
-    <None Update="$(MSBuildThisFileName).targets" Pack="True" PackagePath="/Build/"/>
+    <None Update="$(MSBuildThisFileName).props" Pack="True" PackagePath="/Build/" />
+    <None Update="$(MSBuildThisFileName).targets" Pack="True" PackagePath="/Build/" />
   </ItemGroup>
 
 
