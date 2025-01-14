@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using Handlebars.MSBuild.Extensions;
 using Handlebars.MSBuild.Tasks;
 using HandlebarsDotNet;
 using Microsoft.Build.Framework;
@@ -26,7 +24,6 @@ namespace Handlebars.MSBuild
 
         [Required]
         public string IntermediateOutputPath { get; set; }
-
 
         public TransformHandlebarsTemplatesTask()
         {

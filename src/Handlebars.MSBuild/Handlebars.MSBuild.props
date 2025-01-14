@@ -1,6 +1,6 @@
 <Project>
   <!-- Import our assembly -->
-  <UsingTask TaskName="TransformHandlebarsTemplatesTask" AssemblyFile="$(MSBuildThisFileDirectory)\Handlebars.MSBuild.dll" />
+  <UsingTask TaskName="TransformHandlebarsTemplatesTask" AssemblyFile="$(MSBuildThisFileDirectory)..\tasks\netstandard2.0\Handlebars.MSBuild.dll" />
 
   <ItemDefinitionGroup>
     <HandlebarsProperty>
@@ -16,6 +16,7 @@
   </ItemDefinitionGroup>
 
   <PropertyGroup Label="DefaultProperties">
+    <HandlebarsIntermediateOutputPath>$(MSBuildProjectDirectory)\$(IntermediateOutputPath)\Handlebars\</HandlebarsIntermediateOutputPath>
     <HandlebarsDisableTransformOnBuild Condition="'$(HandlebarsDisableTransform)' == ''">false</HandlebarsDisableTransformOnBuild>
   </PropertyGroup>
   

@@ -1,11 +1,13 @@
 <Project>
+
+
   <Target Name="HandlebarsTemplateTransform" 
           BeforeTargets="BeforeBuild"
           Condition="'$(HandlebarsDisableTransformOnBuild.ToLower())' != 'true'">
 
     <!-- Run Handlebars.net and update the templates-->
     <TransformHandlebarsTemplatesTask
-      IntermediateOutputPath="$(MSBuildProjectDirectory)\$(IntermediateOutputPath)\Handlebars\"
+      IntermediateOutputPath="$(HandlebarsIntermediateOutputPath)"
       Templates="@(HandlebarsTemplate)" 
       Properties="@(HandlebarsProperty)">
       <Output TaskParameter="Templates" ItemName="HandlebarsTemplate"/>
@@ -18,5 +20,12 @@
       <FileWrites Include="@(_HandlebarsSourceFiles)" />
     </ItemGroup>
     
+  </Target>
+ <!-- ===========================================
+  | Removes all generated files whenever the user 
+  | cleans the project   
+  =============================================-->
+  <Target Name="HandlebarsTemplatesClean" AfterTargets="Clean">
+    <RemoveDir Directories="$(HandlebarsIntermediateOutputPath)" Condition="Exists('$(HandlebarsIntermediateOutputPath)')"/>
   </Target>
 </Project>
