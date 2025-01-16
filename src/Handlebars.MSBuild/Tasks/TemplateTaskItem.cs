@@ -33,10 +33,26 @@ namespace Handlebars.MSBuild.Tasks
             set => SetMetadata<string>(nameof(TransformedTemplate), value);
         }
 
-        public string? GeneratedSourcePath
+        public bool Pack
         {
-            get => GetMetadata<string>(nameof(GeneratedSourcePath), null);
-            set => SetMetadata<string>(nameof(GeneratedSourcePath), value);
+            get => GetMetadata<bool>(nameof(Pack), false);
+            set => SetMetadata<bool>(nameof(Pack), value);
+        }
+
+        public string? IntermediateNugetPackPath
+        {
+            get => GetMetadata<string>(nameof(IntermediateNugetPackPath), null);
+            set => SetMetadata<string>(nameof(IntermediateNugetPackPath), value);
+        }
+
+        /// <summary>
+        /// Gets the path in the intermeidate output directory where the template
+        /// will be written to disk then added to the compiler. 
+        /// </summary>
+        public string? IntermediateCompilationPath
+        {
+            get => GetMetadata<string>(nameof(IntermediateCompilationPath), null);
+            set => SetMetadata<string>(nameof(IntermediateCompilationPath), value);
         }
 
 

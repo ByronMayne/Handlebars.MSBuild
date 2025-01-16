@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using Handlebars.MSBuild.Tasks;
@@ -25,18 +26,29 @@ namespace Handlebars.MSBuild
         [Required]
         public string IntermediateOutputPath { get; set; }
 
+        [Required]
+        public string TargetDir { get; set; }
+
         public TransformHandlebarsTemplatesTask()
         {
             BuildEngine = null!;
+            TargetDir = null!;
             HostObject = null!;
             IntermediateOutputPath = null!;
             Templates = Array.Empty<ITaskItem>();
             Properties = Array.Empty<ITaskItem>();
         }
 
+
+
         public override bool Execute()
         {
             Log.LogMessage(MessageImportance.High, "TransformHandlebarsTemplatesTask.Execute()");
+
+            if (!Directory.Exists(IntermediateOutputPath))
+            {
+                Directory.CreateDirectory(IntermediateOutputPath);
+            }
 
             TemplateTaskItem[] templates = Templates
                 .Select(TemplateTaskItem.Create)
@@ -51,43 +63,66 @@ namespace Handlebars.MSBuild
 
             HandlebarsConfiguration configuration = new HandlebarsConfiguration();
             IHandlebars handlebars = HandlebarsDotNet.Handlebars.Create(configuration);
-
-            foreach(TemplateTaskItem template in templates)
+            try
             {
-                string content = template.GetContent();
-                string transformed = handlebars.Compile(content)(properties);
-                template.TransformedTemplate = transformed;
-                Log.LogMessage(MessageImportance.High, "Setting metadata");
 
-                if (template.AddToCompilation)
+                foreach (TemplateTaskItem template in templates)
                 {
-                    string fileName = Path.GetFileName(template.FilePath);
-                    if (string.IsNullOrEmpty(fileName))
-                    {
-                        fileName = Path.GetRandomFileName();
-                    }
-                    string filePath = Path.Combine(IntermediateOutputPath, $"{fileName}.cs");
-                    template.GeneratedSourcePath = filePath;
+                    string content = template.GetContent();
+                    string transformed = handlebars.Compile(content)(properties);
+                    template.TransformedTemplate = transformed;
+                    Log.LogMessage(MessageImportance.High, "Setting metadata");
 
-                    if (!Directory.Exists(IntermediateOutputPath))
+                    if (template.AddToCompilation)
                     {
-                        Directory.CreateDirectory(IntermediateOutputPath);
+                        template.IntermediateCompilationPath = WriteIntermediate(template);
                     }
-                    File.WriteAllText(filePath, transformed);
-                }
-                else if(!string.IsNullOrEmpty(template.OutputPath))
-                {
-                    string directory = Path.GetDirectoryName(template.OutputPath);
-                    if (!Directory.Exists(directory))
+
+                    if (template.Pack)
                     {
-                        Directory.CreateDirectory(directory);
+                        template.IntermediateNugetPackPath = WriteIntermediate(template);
                     }
-                    File.WriteAllText(transformed, template.OutputPath);
+
+                    else if (template.OutputPath is string outputPath)
+                    {
+                        if (!Path.IsPathRooted(outputPath))
+                        {
+                            outputPath = Path.Combine(TargetDir, outputPath);
+                        }
+
+                        string directory = Path.GetDirectoryName(outputPath);
+                        if (!string.IsNullOrWhiteSpace(directory) &&
+                            !Directory.Exists(directory))
+                        {
+                            Directory.CreateDirectory(directory);
+                        }
+                        Log.LogMessage(MessageImportance.High, $"Copying to: {outputPath}");
+                        File.WriteAllText(outputPath, transformed);
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                Log.LogError($"EXCEPTION: \n{ex}");
             }
 
             return true;
         }
 
+        private string WriteIntermediate(TemplateTaskItem template)
+        {
+            string fileName = Path.GetFileName(template.FilePath);
+            string directory = Path.GetDirectoryName(template.FilePath);
+            string filePath = Path.Combine(IntermediateOutputPath, fileName);
+
+            if (!File.Exists(filePath) || File.GetLastWriteTime(filePath) - DateTime.Now > TimeSpan.FromSeconds(2))
+            {
+                File.WriteAllText(filePath, template.TransformedTemplate);
+            }
+
+
+
+            return filePath;
+        }
     }
 }

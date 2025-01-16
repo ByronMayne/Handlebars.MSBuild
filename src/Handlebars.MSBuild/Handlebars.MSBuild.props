@@ -9,18 +9,12 @@
     <HandlebarsTemplate>
       <OutputPath></OutputPath>
       <Content></Content>
+      <ContentType>None</ContentType>
       <AddToCompilation>false</AddToCompilation>
       <TransformedTemplate></TransformedTemplate>
       <GeneratedSourcePath></GeneratedSourcePath>
     </HandlebarsTemplate>
   </ItemDefinitionGroup>
-
-  <PropertyGroup Label="DefaultProperties">
-    <HandlebarsIntermediateOutputPath>$(MSBuildProjectDirectory)\$(IntermediateOutputPath)\Handlebars\</HandlebarsIntermediateOutputPath>
-    <HandlebarsDisableTransformOnBuild Condition="'$(HandlebarsDisableTransform)' == ''">false</HandlebarsDisableTransformOnBuild>
-  </PropertyGroup>
-  
-  
   <ItemGroup Label="Included Properties">
     <HandlebarsProperty Include="AssemblyName" Condition="'$(AssemblyName)' != ''" Value="$(AssemblyName)"/>
     <HandlebarsProperty Include="AssemblyTitle" Condition="'$(AssemblyTitle)' != ''" Value="$(AssemblyTitle)"/>

@@ -67,6 +67,17 @@
       <BuiltProjectOutputGroupOutput Include="$(ProjectDepsFilePath)" TargetPath="$(ProjectDepsFileName)" FinalOutputPath="$(ProjectDepsFilePath)" />
     </ItemGroup>
   </Target>
+
+  <Target Name="HandlebarsPack">
+    
+  </Target>
+
+  <Target Name="Copy" AfterTargets="Build">
+    <Message Importance="high" Text="Copy $(TargetPath)"/>
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="C:\Users\byron\.nuget\packages\handlebars.msbuild\1.0.17\tasks\netstandard2.0"/>
+    <Copy SourceFiles="$(MSBuildThisFileName).props" DestinationFolder="C:\Users\byron\.nuget\packages\handlebars.msbuild\1.0.17\Build"/>
+    <Copy SourceFiles="$(MSBuildThisFileName).targets" DestinationFolder="C:\Users\byron\.nuget\packages\handlebars.msbuild\1.0.17\Build"/>
+  </Target>
 </Project>
 
 
