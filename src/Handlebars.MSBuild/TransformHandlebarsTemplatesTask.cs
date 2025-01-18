@@ -65,13 +65,11 @@ namespace Handlebars.MSBuild
             IHandlebars handlebars = HandlebarsDotNet.Handlebars.Create(configuration);
             try
             {
-
                 foreach (TemplateTaskItem template in templates)
                 {
                     string content = template.GetContent();
                     string transformed = handlebars.Compile(content)(properties);
                     template.TransformedTemplate = transformed;
-                    Log.LogMessage(MessageImportance.High, "Setting metadata");
 
                     if (template.AddToCompilation)
                     {
@@ -96,14 +94,13 @@ namespace Handlebars.MSBuild
                         {
                             Directory.CreateDirectory(directory);
                         }
-                        Log.LogMessage(MessageImportance.High, $"Copying to: {outputPath}");
                         File.WriteAllText(outputPath, transformed);
                     }
                 }
             }
             catch (Exception ex)
             {
-                Log.LogError($"EXCEPTION: \n{ex}");
+                Log.LogError($"Unhandled exception when running Handlebars.MSBuild: \n{ex}");
             }
 
             return true;
