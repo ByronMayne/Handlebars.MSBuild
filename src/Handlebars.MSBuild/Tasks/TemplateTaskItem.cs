@@ -13,16 +13,27 @@ namespace Handlebars.MSBuild.Tasks
 
     internal class TemplateTaskItem : AbstractTaskItem
     {
-
         public StreamType StreamType { get; }
         public string? FilePath { get; }
-        public string? Content { get; }
-        public bool AddToCompilation { get; }
+
+        public string? ItemSpec { get; }
+        public string? Content
+        {
+            get => GetMetadata<string>(nameof(Content), null);
+        }
+
+        public bool AddToCompilation
+        {
+            get => GetMetadata<bool>(nameof(AddToCompilation), false);
+        }
 
         /// <summary>
         /// Gets the path the file should be written to
         /// </summary>
-        public string? OutputPath { get; }
+        public string? OutputPath
+        {
+            get => GetMetadata<string>(nameof(OutputPath), null);
+        }
 
         /// <summary>
         /// Gets the content from the template that was generated
@@ -46,7 +57,7 @@ namespace Handlebars.MSBuild.Tasks
         }
 
         /// <summary>
-        /// Gets the path in the intermeidate output directory where the template
+        /// Gets the path in the intermediate output directory where the template
         /// will be written to disk then added to the compiler. 
         /// </summary>
         public string? IntermediateCompilationPath
@@ -59,9 +70,7 @@ namespace Handlebars.MSBuild.Tasks
         private TemplateTaskItem(ITaskItem taskItem) : base(taskItem)
         {
             FilePath = null;
-            Content = GetMetadata<string>("Content", null);
-            OutputPath = GetMetadata<string>("OutputPath", null);
-            AddToCompilation = GetMetadata<bool>("AddToCompilation", false);
+            ItemSpec = taskItem.ItemSpec;
 
             if (string.IsNullOrWhiteSpace(Content))
             {

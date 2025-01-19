@@ -15,6 +15,16 @@
       <GeneratedSourcePath></GeneratedSourcePath>
     </HandlebarsTemplate>
   </ItemDefinitionGroup>
+  <PropertyGroup>
+    <HandlebarsTransformTargetsBefore>
+      BeforeCompile;
+      CoreCompile;
+      GenerateNuspec;
+      _GenerateRestoreProjectSpec;
+      _GetOutputItemsFromPack;
+      EnsureWixToolsetInstalled
+    </HandlebarsTransformTargetsBefore>
+  </PropertyGroup>
   <ItemGroup Label="Included Properties">
     <HandlebarsProperty Include="AssemblyName" Condition="'$(AssemblyName)' != ''" Value="$(AssemblyName)"/>
     <HandlebarsProperty Include="AssemblyTitle" Condition="'$(AssemblyTitle)' != ''" Value="$(AssemblyTitle)"/>

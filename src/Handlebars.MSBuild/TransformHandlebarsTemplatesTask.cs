@@ -73,7 +73,7 @@ namespace Handlebars.MSBuild
 
                     if (template.AddToCompilation)
                     {
-                        template.IntermediateCompilationPath = WriteIntermediate(template);
+                        template.IntermediateCompilationPath = WriteIntermediate(template, ".cs");
                     }
 
                     if (template.Pack)
@@ -81,18 +81,19 @@ namespace Handlebars.MSBuild
                         template.IntermediateNugetPackPath = WriteIntermediate(template);
                     }
 
-                    else if (template.OutputPath is string outputPath)
+                    else if (template.OutputPath is string outputPath && !string.IsNullOrWhiteSpace(outputPath))
                     {
-                        if (!Path.IsPathRooted(outputPath))
-                        {
-                            outputPath = Path.Combine(TargetDir, outputPath);
-                        }
-
                         string directory = Path.GetDirectoryName(outputPath);
-                        if (!string.IsNullOrWhiteSpace(directory) &&
+                        if(string.IsNullOrWhiteSpace(directory) &&
                             !Directory.Exists(directory))
                         {
                             Directory.CreateDirectory(directory);
+                        }
+
+                        string fileName = Path.GetFileName(outputPath);
+                        if (string.IsNullOrWhiteSpace(fileName))
+                        {
+                            outputPath = Path.Combine(directory, Path.GetFileName(template.ItemSpec));
                         }
                         File.WriteAllText(outputPath, transformed);
                     }
@@ -106,19 +107,24 @@ namespace Handlebars.MSBuild
             return true;
         }
 
-        private string WriteIntermediate(TemplateTaskItem template)
+        private string WriteIntermediate(TemplateTaskItem template, string? extensions = null)
         {
             string fileName = Path.GetFileName(template.FilePath);
             string directory = Path.GetDirectoryName(template.FilePath);
             string filePath = Path.Combine(IntermediateOutputPath, fileName);
 
-            if (!File.Exists(filePath) || File.GetLastWriteTime(filePath) - DateTime.Now > TimeSpan.FromSeconds(2))
+            if(extensions != null)
             {
-                File.WriteAllText(filePath, template.TransformedTemplate);
+                filePath = Path.ChangeExtension(filePath, extensions);
             }
 
+            if (!Directory.Exists(directory))
+            {
 
-
+                Directory.CreateDirectory(directory);
+            }
+            Log.LogMessage(MessageImportance.High, $"Output: {filePath}"); 
+            File.WriteAllText(filePath, template.TransformedTemplate);
             return filePath;
         }
     }

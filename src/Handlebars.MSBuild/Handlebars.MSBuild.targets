@@ -1,17 +1,8 @@
 <Project>
 
-  <Target Name="HandlebarsVariableSetup">
-    <PropertyGroup>
-      <HandlebarsDisableTransformOnBuild Condition="'$(HandlebarsDisableTransform)' == ''">false</HandlebarsDisableTransformOnBuild>
-    </PropertyGroup>
-  </Target>
-
   <Target Name="HandlebarsTemplateTransform" 
-          DependsOnTargets="HandlebarsVariableSetup"
-          BeforeTargets="BeforeBuild"
+          BeforeTargets="$(HandlebarsTransformTargetsBefore)"
           Condition="'$(HandlebarsDisableTransformOnBuild.ToLower())' != 'true'">
-
-    
     
     <!-- Run Handlebars.net and update the templates-->
     <TransformHandlebarsTemplatesTask
@@ -21,28 +12,19 @@
       Properties="@(HandlebarsProperty)">
       <Output TaskParameter="Templates" ItemName="HandlebarsTemplate"/>
     </TransformHandlebarsTemplatesTask>
-  </Target>
 
-  <!-- Add all the files for the compile step -->
-  <Target Name="HandlebarsCompile"
-          DependsOnTargets="HandlebarsTemplateTransform"
-          BeforeTargets="Compile">
+    <!-- Compile -->
     <ItemGroup>
-      <_HandlebarsSourceFile Include="@(_HandlebarsSourceFiles->'IntermediateCompilationPath')" Condition="'%(AddToCompilation.ToLower())' == 'true' and %(IntermediateCompilationPath) != ''" />
-      <Compile Include="@(_HandlebarsSourceFile)"/>
-      <FileWrites Include="@(_HandlebarsSourceFile)" />
+      <Compile Include="@(HandlebarsTemplate->'%(IntermediateCompilationPath)')" Condition=" '$(Language)' == 'C#' Or '$(Language)' == 'VB' " />
+      <_GeneratedCodeFiles nclude="@(HandlebarsTemplate->'%(IntermediateCompilationPath)')"/>
+      <FileWrites Include="@(HandlebarsTemplate->'%(IntermediateCompilationPath)')" />
     </ItemGroup>
-  </Target>
-
-  <!-- Add all the files for Nuget -->
-  <Target Name="HandlebarsNuGetPackInput"
-          DependsOnTargets="HandlebarsTemplateTransform"
-          BeforeTargets="GenerateNuspec">
-    <Message Importance="high" Text="Adding Pack" />
+    
+    <!-- Pack -->
     <ItemGroup>
 
       <!-- Add files marked with an 'OutputPath' -->
-      <_PackageFiles Include="@(HandlebarsTemplate->'%(IntermediateNugetPackPath)')" 
+      <_PackageFiles Include="@(HandlebarsTemplate->'%(IntermediateNugetPackPath)')"
             Condition="$([System.String]::Equals(%(HandlebarsTemplate.Pack), 'true', StringComparison.OrdinalIgnoreCase))"
             Pack="True"
             BuildAction="None"
@@ -50,14 +32,12 @@
     </ItemGroup>
   </Target>
   
-  
  <!-- ===========================================
   | Removes all generated files whenever the user 
   | cleans the project   
   =============================================-->
   <Target 
       Name="HandlebarsTemplatesClean"
-      DependsOnTargets="HandlebarsVariableSetup"
       AfterTargets="Clean">
     <RemoveDir Directories="$(HandlebarsIntermediateOutputPath)" Condition="Exists('$(HandlebarsIntermediateOutputPath)')"/>
   </Target>
